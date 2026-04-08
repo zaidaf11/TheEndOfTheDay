@@ -15,5 +15,6 @@ public class TheEndOfTheDay {
         System.out.println("The End Of The Day: New Journey 2");
         System.out.println("The End Of The Day: Big Bang 3");
         System.out.println("The End Of The Day: Last Soul 4");
+        //Fatan Anjing
     }
 }
