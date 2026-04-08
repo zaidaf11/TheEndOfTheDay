@@ -14,5 +14,6 @@ public class TheEndOfTheDay {
         System.out.println("The End Of The Day: The Origin 1");
         System.out.println("The End Of The Day: The Origin 2");
         System.out.println("The End Of The Day: The Origin 3");
+        System.out.println("The End Of The Day: The Origin 4");
     }
 }
