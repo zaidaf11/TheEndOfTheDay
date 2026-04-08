@@ -7,7 +7,18 @@ package com.mycompany.theendoftheday;
 /**
  *
  * @author DELL
+ * @author Zaid A F
  */
-public class Dynamite {
+import java.util.Random;
+public class Dynamite extends Zombie {
+    private int BombCode;
+    
+    
+    public Dynamite(){
+        HP = 40;
+        Damage = 15;
+        BombCode = new Random().nextInt(5)+1;
+    }
+    
     
 }
