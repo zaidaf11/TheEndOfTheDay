@@ -10,7 +10,7 @@ package com.mycompany.theendoftheday;
  */
 public class Tank extends Zombie{
      public Tank (){
-        HP = 30;
+        HP = 50;
         Damage = 5;
       
     }

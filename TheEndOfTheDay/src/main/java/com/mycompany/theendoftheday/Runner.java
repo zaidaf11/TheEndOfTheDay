@@ -10,8 +10,8 @@ package com.mycompany.theendoftheday;
  */
 public class Runner extends Zombie{
      public Runner (){
-        HP = 30;
-        Damage = 5;
+        HP = 20;
+        Damage = 10;
       
     }
 @Override
