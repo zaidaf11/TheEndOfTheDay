@@ -44,5 +44,6 @@ public class TheEndOfTheDay {
         System.out.println("3. Sembunyi");
         System.out.println("4. Lari");
         System.out.println("5. Istirahat");
+        System.out.println("rasya");
     }
 }
