@@ -6,7 +6,7 @@ package com.mycompany.theendoftheday;
 
 /**
  *
- * @author Zaid Akmal Firdaus
+ * @author Zaid Akmal Firdaus Ganteng
  */
 import java.util.Scanner;
 import java.util.Random;
