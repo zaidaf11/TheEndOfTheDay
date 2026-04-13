@@ -22,14 +22,23 @@ public class TheEndOfTheDay {
     }
         public static void Intro() {
         System.out.println("Kamu terbangun di tengah-tengah kerumunan para Zombie!");
+        delay();
         System.out.println("Hari mulai mencekam, apa yang akan kamu lakukan?");
+        delay();
         }
         static void gameloop() {
             System.out.println("\n=== TURN " + turn + " ===");
             showStatus();
-            actionMenu();
-            
-        
+            actionMenu();       
+    }
+    
+    static void delay() {
+    try {
+        Thread.sleep(1000); // Jeda selama 1 detik (1000 milidetik)
+    }
+    catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+    } 
     }
 
     static void showStatus() {
@@ -52,13 +61,16 @@ public class TheEndOfTheDay {
         
         switch(pilihan){
             case 1 : findweapon();
+            case 2 : 
             case 3 : hide();
+            case 4 : runAway();
            
         }
     }
     
     static void findweapon () {
         System.out.println("Mencari senjata...");
+        delay();
         int s = rand.nextInt(3);{
         if(s==0){
             player.setWeapon("Pisau");
@@ -91,8 +103,22 @@ public class TheEndOfTheDay {
         
         }
         else{
-            System.out.println("Kamu gagal bersembunyi");
+            System.out.println("Kamu gagal bersembunyi!! zombie menemukanmu!!");
         }
+        
+    }
+    
+    static void runAway(){
+        System.out.println("Kamu mencoba kabur...");
+        delay();
+        if (rand.nextBoolean()){
+            System.out.println("Kamu berhasil kabur");
+        
+        }
+        else{
+            System.out.println("kamu gagal kabur!!");
+        }
+        player.setStamina(player.getStamina() - 10);
         
     }
     
