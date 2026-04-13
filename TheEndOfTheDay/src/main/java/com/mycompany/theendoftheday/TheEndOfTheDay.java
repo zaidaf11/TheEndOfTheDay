@@ -27,6 +27,8 @@ public class TheEndOfTheDay {
         static void gameloop() {
             System.out.println("\n=== TURN " + turn + " ===");
             showStatus();
+            actionMenu();
+            
         
     }
 
@@ -44,6 +46,37 @@ public class TheEndOfTheDay {
         System.out.println("3. Sembunyi");
         System.out.println("4. Lari");
         System.out.println("5. Istirahat");
-        System.out.println("rasya");
+        System.out.print("Apa pilihan kamu (1-5)? ");
+        int pilihan = input.nextInt();
+        
+        
+        switch(pilihan){
+            case 1 : findweapon();
+           
+        }
     }
+    
+    static void findweapon () {
+        System.out.println("Mencari senjata...");
+        int s = rand.nextInt(3);{
+        if(s==0){
+            player.setWeapon("Pisau");
+            player.setDamage(15);
+        }
+        else if (s==1){
+            player.setWeapon("Bedog");
+            player.setDamage(20);
+    }
+        else {
+            player.setWeapon("Pistol");
+            player.setDamage(30);   
+        }
+        System.out.println("Kamu Mendapatkan: " + player.getWeapon());
+        System.out.println("Damage kamu meninggkat: " + player.getDamage());
+        
+        
+        }
+   
+    }
+   
 }
