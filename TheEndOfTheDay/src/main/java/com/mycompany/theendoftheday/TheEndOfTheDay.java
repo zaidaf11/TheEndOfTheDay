@@ -52,6 +52,7 @@ public class TheEndOfTheDay {
         
         switch(pilihan){
             case 1 : findweapon();
+            case 3 : hide();
            
         }
     }
@@ -66,11 +67,15 @@ public class TheEndOfTheDay {
         else if (s==1){
             player.setWeapon("Bedog");
             player.setDamage(20);
+    }   else if (s==2){
+            player.setWeapon("Bazoka");
+            player.setDamage(999);
     }
         else {
             player.setWeapon("Pistol");
             player.setDamage(30);   
         }
+        
         System.out.println("Kamu Mendapatkan: " + player.getWeapon());
         System.out.println("Damage kamu meninggkat: " + player.getDamage());
         
@@ -79,4 +84,16 @@ public class TheEndOfTheDay {
    
     }
    
+    static void hide (){
+        System.out.println("Kamu memilih untuk bersembunyi dari Zombie");
+        if (rand.nextBoolean()){
+            System.out.println("Kamu berhasil bersembunyi dari para Zombie");
+        
+        }
+        else{
+            System.out.println("Kamu gagal bersembunyi");
+        }
+        
+    }
+    
 }
