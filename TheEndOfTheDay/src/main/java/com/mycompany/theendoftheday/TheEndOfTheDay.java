@@ -10,11 +10,6 @@ package com.mycompany.theendoftheday;
  */
 import java.util.Scanner;
 import java.util.Random;
-<<<<<<< HEAD
-
-public class TheEndOfTheDay {
-    static Scanner input = new scanner();
-=======
 public class TheEndOfTheDay {
     static Scanner input = new Scanner(System.in);
     static Random rand = new Random();
@@ -49,10 +44,6 @@ public class TheEndOfTheDay {
         System.out.println("3. Sembunyi");
         System.out.println("4. Lari");
         System.out.println("5. Istirahat");
-<<<<<<< HEAD
->>>>>>> a4a30ed99325eeaba7c911ae26b0b92ee8119fa5
-=======
         System.out.println("rasya");
->>>>>>> 56ee9d0e35ba45648d35edcdbeecf10cb5b68760
     }
-
+}
