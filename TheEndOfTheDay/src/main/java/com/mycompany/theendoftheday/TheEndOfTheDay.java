@@ -60,10 +60,10 @@ public class TheEndOfTheDay {
         
         
         switch(pilihan){
-            case 1 : findweapon();
+            case 1 : findweapon(); break;
             case 2 : 
-            case 3 : hide();
-            case 4 : runAway();
+            case 3 : hide(); break;
+            case 4 : runAway(); break;
            
         }
     }
@@ -71,7 +71,7 @@ public class TheEndOfTheDay {
     static void findweapon () {
         System.out.println("Mencari senjata...");
         delay();
-        int s = rand.nextInt(3);{
+        int s = rand.nextInt(4);{
         if(s==0){
             player.setWeapon("Pisau");
             player.setDamage(15);
@@ -117,6 +117,8 @@ public class TheEndOfTheDay {
         }
         else{
             System.out.println("kamu gagal kabur!!");
+            delay();
+            System.out.println("stamina kamu berkurang 10..");
         }
         player.setStamina(player.getStamina() - 10);
         
