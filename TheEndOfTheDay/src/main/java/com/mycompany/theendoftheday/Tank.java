@@ -2,23 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.theendoftheday.Zombie;
+package com.mycompany.theendoftheday;
 
-import com.mycompany.theendoftheday.Zombie.Zombie;
+import com.mycompany.theendoftheday.Zombie;
 
 /**
  *
  * @author Zaid Akmal
  */
-public class Walker extends Zombie{
-    public Walker (){
-        HP = 30;
+public class Tank extends Zombie{
+     public Tank (){
+        HP = 50;
         Damage = 5;
       
     }
-    @Override
+@Override
     public String getType (){
-        return"Walker";
+        return"Tank";
     }
     
 }

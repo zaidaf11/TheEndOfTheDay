@@ -29,7 +29,8 @@ public class TheEndOfTheDay {
         static void gameloop() {
             System.out.println("\n=== TURN " + turn + " ===");
             showStatus();
-            actionMenu();       
+            actionMenu();
+            turn ++;
     }
     
     static void delay() {
@@ -98,11 +99,11 @@ public class TheEndOfTheDay {
     }
     
     static void battle(){
+        Zombie z = new Zombie();
         System.out.println("Kamu bertemu dengan Zombie!");
         delay();
         System.out.println("Bersiap untuk menyerang!");
         
-        Zombie z = new spawnZombie();
         while (z.HP > 0 && player.getHP() > 0){
             System.out.println("1. Serang Zombie");
             System.out.println("2. Kabur");
