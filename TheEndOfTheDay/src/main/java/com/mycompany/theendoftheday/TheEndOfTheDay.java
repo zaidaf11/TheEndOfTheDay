@@ -30,28 +30,12 @@ public class TheEndOfTheDay {
     boolean gameRunning = true;
 
     while (gameRunning) {
+        System.out.println("==================");
         System.out.println("\n=== TURN " + turn + " ===");
         showStatus();
         actionMenu();
         turn++;
-
-        // kondisi game over
-        if (player.getHP() <= 0) {
-            System.out.println("Kamu mati! Game Over 💀");
-            gameRunning = false;
-        }
-
-        // opsional: stamina habis
-        if (player.getStamina() <= 0) {
-            System.out.println("Kamu kelelahan dan tidak bisa lanjut!");
-            gameRunning = false;
-        }
-
-        // biar gak terlalu cepat
-        delay();
     }
-
-    System.out.println("Terima kasih sudah bermain!");
 }
    
     
