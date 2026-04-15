@@ -64,6 +64,7 @@ public class TheEndOfTheDay {
             case 2 : 
             case 3 : hide(); break;
             case 4 : runAway(); break;
+            case 5 : rest(); break;
            
         }
     }
@@ -98,6 +99,7 @@ public class TheEndOfTheDay {
    
     static void hide (){
         System.out.println("Kamu memilih untuk bersembunyi dari Zombie");
+        delay();
         if (rand.nextBoolean()){
             System.out.println("Kamu berhasil bersembunyi dari para Zombie");
         
@@ -116,12 +118,24 @@ public class TheEndOfTheDay {
         
         }
         else{
-            System.out.println("kamu gagal kabur!!");
+            System.out.println("Kamu gagal kabur!!");
             delay();
-            System.out.println("stamina kamu berkurang 10..");
+            System.out.println("Stamina kamu berkurang 10..");
         }
         player.setStamina(player.getStamina() - 10);
         
     }
+    
+    static void rest(){
+            System.out.println("Kamu memilih untuk beristirahat");
+            delay();
+            System.out.println("Stamina kamu bertambah 10..");
+            System.out.println("HP kamu bertambah 10..");
+    
+        player.setStamina(player.getStamina() + 10);
+        player.setHP(player.getHP() + 10);
+    
+    }
+    
     
 }
