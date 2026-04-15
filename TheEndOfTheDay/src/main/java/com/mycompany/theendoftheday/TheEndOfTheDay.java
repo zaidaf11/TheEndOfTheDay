@@ -108,6 +108,9 @@ public class TheEndOfTheDay {
             System.out.println("1. Serang Zombie");
             System.out.println("2. Kabur");
             int a = input.nextInt();
+            if(a == 1){
+               System.out.println("berhasil serang");
+            }
         }
 
     }
