@@ -61,7 +61,7 @@ public class TheEndOfTheDay {
         
         switch(pilihan){
             case 1 : findweapon(); break;
-            case 2 : 
+            case 2 : battle(); break;
             case 3 : hide(); break;
             case 4 : runAway(); break;
             case 5 : rest(); break;
@@ -95,6 +95,20 @@ public class TheEndOfTheDay {
         
         }
    
+    }
+    
+    static void battle(){
+        System.out.println("Kamu bertemu dengan Zombie!");
+        delay();
+        System.out.println("Bersiap untuk menyerang!");
+        
+        Zombie z = new spawnZombie();
+        while (z.HP > 0 && player.getHP() > 0){
+            System.out.println("1. Serang Zombie");
+            System.out.println("2. Kabur");
+            int a = input.nextInt();
+        }
+
     }
    
     static void hide (){
@@ -130,12 +144,15 @@ public class TheEndOfTheDay {
             System.out.println("Kamu memilih untuk beristirahat");
             delay();
             System.out.println("Stamina kamu bertambah 10..");
-            System.out.println("HP kamu bertambah 10..");
+            System.out.println("HP kamu bertambah 5..");
     
         player.setStamina(player.getStamina() + 10);
-        player.setHP(player.getHP() + 10);
+        player.setHP(player.getHP() - 5);
     
     }
     
+    static void spawnZombie(){
+        
+    }
     
 }
