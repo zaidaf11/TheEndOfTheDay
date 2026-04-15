@@ -115,14 +115,14 @@ public class TheEndOfTheDay {
         delay();
         if (rand.nextBoolean()){
             System.out.println("Kamu berhasil kabur");
+            delay();
+            System.out.println("Stamina kamu berkurang 10..");
+            player.setStamina(player.getStamina() - 10);
         
         }
         else{
             System.out.println("Kamu gagal kabur!!");
-            delay();
-            System.out.println("Stamina kamu berkurang 10..");
         }
-        player.setStamina(player.getStamina() - 10);
         
     }
     

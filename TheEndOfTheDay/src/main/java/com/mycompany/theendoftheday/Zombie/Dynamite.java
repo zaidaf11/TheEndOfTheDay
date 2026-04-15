@@ -2,13 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.theendoftheday;
+package com.mycompany.theendoftheday.Zombie;
 
 /**
  *
  * @author DELL
  * @author Zaid A F
  */
+import com.mycompany.theendoftheday.Player;
+import com.mycompany.theendoftheday.Zombie.Zombie;
 import java.util.Scanner;
 import java.util.Random;
 public class Dynamite extends Zombie {
