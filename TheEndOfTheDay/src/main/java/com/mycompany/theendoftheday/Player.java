@@ -41,7 +41,7 @@ public class Player {
     public int getDamage (){return Damage;}
     public void setDamage (int Damage){ this.Damage = Damage;}
     
-    public boolean getInfected (){return Infected;}
+    public boolean GetInfected (){return Infected;}
     public void setInfected (boolean Infected){ this.Infected = Infected;}
     
 }
