@@ -36,22 +36,7 @@ public class TheEndOfTheDay {
         turn++;
 
         // kondisi game over
-        if (player.getHP() <= 0) {
-            System.out.println("Kamu mati! Game Over 💀");
-            gameRunning = false;
-        }
-
-        // opsional: stamina habis
-        if (player.getStamina() <= 0) {
-            System.out.println("Kamu kelelahan dan tidak bisa lanjut!");
-            gameRunning = false;
-        }
-
-        // biar gak terlalu cepat
-        delay();
     }
-
-    System.out.println("Terima kasih sudah bermain!");
 }
    
     
@@ -173,7 +158,7 @@ public class TheEndOfTheDay {
             System.out.println("HP kamu bertambah 5..");
     
         player.setStamina(player.getStamina() + 10);
-        player.setHP(player.getHP() - 5);
+        player.setHP(player.getHP() + 5);
     
     }
     
