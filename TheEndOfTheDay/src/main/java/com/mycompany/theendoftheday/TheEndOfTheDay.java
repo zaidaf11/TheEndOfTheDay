@@ -106,7 +106,7 @@ public class TheEndOfTheDay {
     }
     
      static void battle() {
-        Zombie z = spawnZombie(); // polymorphism
+        Zombie z = spawnZombie(); 
         System.out.println("> Zombie muncul: " + z.getType());
 
         while (z.HP > 0 && player.getHP() > 0) {
