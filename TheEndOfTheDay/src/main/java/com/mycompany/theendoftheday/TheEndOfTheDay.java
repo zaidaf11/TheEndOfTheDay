@@ -36,11 +36,9 @@ public class TheEndOfTheDay {
         actionMenu();
         hungerSystem();
         turn++;
-<<<<<<< HEAD
 
         // kondisi game over
-=======
->>>>>>> c78574520c5e1dcf5fef11ac686a2f53f2ead463
+
     }
 }
    
