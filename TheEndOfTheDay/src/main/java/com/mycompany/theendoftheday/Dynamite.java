@@ -41,5 +41,6 @@ public class Dynamite extends Zombie {
     public String getType(){
         return "Dynamite zombie";
     }
+    //dynamite
     
 }
