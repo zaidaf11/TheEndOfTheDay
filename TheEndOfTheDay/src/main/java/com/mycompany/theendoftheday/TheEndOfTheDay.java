@@ -15,6 +15,8 @@ public class TheEndOfTheDay {
     static Random rand = new Random();
     static Player player = new Player();
     static int turn = 1;
+   
+    static int CDFW = 0;
     
     public static void main(String[] args) {
         Intro();
@@ -33,15 +35,32 @@ public class TheEndOfTheDay {
         System.out.println("==================");
         System.out.println("\n=== TURN " + turn + " ===");
         showStatus();
+        
         actionMenu();
+        randomEvent();
         hungerSystem();
         turn++;
+        CDFW--;
+        
+        
+        if (player.getHP()<=0){
+            endingMati ();
+            break;
+        }
+        
+        if (player.GetInfected()) {
+            System.out.println("> PERINGATAN: Virus zombie menyebar di tubuhmu! HP berkurang.");
+            player.setHP(player.getHP() - 10); // Penalti HP karena infeksi
+            
+            // Peluang kecil berubah langsung jadi zombie tiap turn
+            if (rand.nextInt(100) < 15) { 
+                endingZombie();
+                break;
+            }
 
-        // kondisi game over
-
+        }
     }
 }
-   
     
     static void delay() {
     try {
@@ -71,7 +90,15 @@ public class TheEndOfTheDay {
         
         
         switch(pilihan){
-            case 1 : findweapon(); break;
+            case 1 : 
+                if (CDFW <= 0){
+                    findweapon();
+                    
+                }else{
+                    
+                    System.out.println("Ti1dak bisa Mengambil lagi Senjata tunggu "+CDFW+ " Turn lagi");
+                } 
+                break;
             case 2 : battle(); break;
             case 3 : hide(); break;
             case 4 : runAway(); break;
@@ -81,9 +108,10 @@ public class TheEndOfTheDay {
     }
     
     static void findweapon () {
+        CDFW = 3;
         System.out.println("Mencari senjata...");
         delay();
-        int s = rand.nextInt(4);{
+        int s = rand.nextInt(11);{
         if(s==0){
             player.setWeapon("Pisau");
             player.setDamage(15);
@@ -92,13 +120,43 @@ public class TheEndOfTheDay {
             player.setWeapon("Bedog");
             player.setDamage(20);
     }   else if (s==2){
-            player.setWeapon("Bazoka");
-            player.setDamage(999);
+            player.setWeapon("Tangan Kosong");
+            player.setDamage(10);
     }
-        else {
+        else if (s==3){
             player.setWeapon("Pistol");
             player.setDamage(30);   
         }
+        
+        else if (s==4) {
+            player.setWeapon("Tangan Kosong");
+            player.setDamage(10);   
+                }
+        
+        else if (s==5) {
+            player.setWeapon("Tangan Kosong");
+            player.setDamage(10);   
+                }
+        
+        else if (s==6) {
+            player.setWeapon("Tangan Kosong");
+            player.setDamage(10);   
+                }
+        
+        else if (s==7) {
+            player.setWeapon("Pisau");
+            player.setDamage(15);   
+                }
+        
+        else if (s==8) {
+            player.setWeapon("Pisau");
+            player.setDamage(15);   
+                }
+        
+        else {
+            player.setWeapon("Bedog");
+            player.setDamage(20);   
+                }
         
         System.out.println("Kamu Mendapatkan: " + player.getWeapon());
         System.out.println("Damage kamu meninggkat: " + player.getDamage());
@@ -109,33 +167,48 @@ public class TheEndOfTheDay {
     }
     
      static void battle() {
-        Zombie z = spawnZombie(); 
-        System.out.println("> Zombie muncul: " + z.getType());
+    Zombie z = spawnZombie(); 
+    System.out.println("> Zombie muncul: " + z.getType());
 
-        while (z.HP > 0 && player.getHP() > 0) {
-            System.out.println("\n1. Serang");
-            System.out.println("2. Kabur");
-            int c = input.nextInt();
+    while (z.HP > 0 && player.getHP() > 0) {
+        System.out.println("\n1. Serang");
+        System.out.println("2. Kabur");
+        System.out.print("Pilihanmu: ");
+        int c = input.nextInt();
 
-            if (c == 1) {
-                if (z instanceof Dynamite) {
-                    z.attack(player); // harus jinakkan bom dulu
-                    System.out.println("> Sekarang kamu bisa menyerang Dynamite Zombie!");
-                }
-                z.HP -= player.getDamage();
-                System.out.println("> Kamu menyerang! Damage: " + player.getDamage());
+        if (c == 1) { // JIKA MEMILIH SERANG
+            if (z instanceof Dynamite) {
+                z.attack(player); 
+                System.out.println("> Sekarang kamu bisa menyerang Dynamite Zombie!");
+            }
+            
+            z.HP -= player.getDamage();
+            System.out.println("> Kamu menyerang! Damage: " + player.getDamage());
 
-                if (z.HP <= 0) System.out.println("> Zombie mati!");
-                else if (!(z instanceof Dynamite)) z.attack(player);
-
-                if (rand.nextInt(10) < 2) player.setInfected(true);
+            if (z.HP <= 0) {
+                System.out.println("> Zombie mati!");
             } else {
-                if (rand.nextBoolean()) { System.out.println("> Berhasil kabur!"); return; }
-                else { System.out.println("> Gagal kabur!"); z.attack(player); }
+                // Zombie menyerang balik jika belum mati
+                z.attack(player);
+                
+                // Peluang terinfeksi saat kena serang
+                if (rand.nextInt(10) < 2) {
+                    System.out.println("> Kamu tergigit dalam perkelahian!");
+                    player.setInfected(true);
+                }
+            }
+        } 
+        else if (c == 2) { // JIKA MEMILIH KABUR
+            if (rand.nextBoolean()) { 
+                System.out.println("> Berhasil kabur dari pertarungan!");
+                return; // Keluar dari method battle dan lanjut ke turn berikutnya
+            } else {
+                System.out.println("> Gagal kabur! Zombie menyerangmu!");
+                z.attack(player);
             }
         }
     }
-
+}
     static Zombie spawnZombie() {
         int r = rand.nextInt(5);
         if (r == 0) return new Walker();
@@ -145,7 +218,7 @@ public class TheEndOfTheDay {
     }
 
     static void randomEvent() {
-        int r = rand.nextInt(4);
+        int r = rand.nextInt(20);
         if (r == 0) { System.out.println("> Kamu menemukan makanan!"); player.setHunger(player.getHunger() - 10); }
         if (r == 1) {
             System.out.println("> Kamu bertemu survivor...");
@@ -153,13 +226,24 @@ public class TheEndOfTheDay {
             int c = input.nextInt();
             if (c == 1) { System.out.println("> Dia membantu kamu!"); player.setHP(player.getHP() + 10); }
         }
+        
+        if (r == 2) {
+        System.out.println("> Kamu menemukan persediaan medis bekas...");
+        System.out.println("1. Ambil\n2. Biarkan");
+        int c = input.nextInt();
+        if (c == 1) {
+            System.out.println("> Jarum suntik bekas melukaimu! Kamu terinfeksi virus.");
+            player.setInfected(true);
+        }
     }
-
+        else;
+}
     static void hungerSystem() {
         player.setHunger(player.getHunger() + 5);
         if (player.getHunger() >= 50) { System.out.println("> Kamu kelaparan!"); player.setHP(player.getHP() - 5); }
     }
 
+       
     static void endingMati() { System.out.println("> Kamu mati...\nGAME OVER"); }
     static void endingZombie() { System.out.println("> Kamu berubah jadi zombie...\nENDING: INFECTED"); }
 
@@ -206,6 +290,6 @@ public class TheEndOfTheDay {
     
     }
     
-        
+       
     
 }

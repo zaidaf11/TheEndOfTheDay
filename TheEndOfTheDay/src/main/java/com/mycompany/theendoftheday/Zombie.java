@@ -16,7 +16,7 @@ public class Zombie {
     
     public void attack (Player P)
     {P.setHP(P.getHP()-Damage);
-    System.out.println("Zombie menyerang!!"+Damage+HP);
+    System.out.println("Zombie menyerang!!"+ Damage);
     }
     
     public String getType(){
