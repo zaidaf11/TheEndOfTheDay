@@ -8,6 +8,7 @@ package com.mycompany.theendoftheday;
  *
  * @author Zaid 
  */
+// dikulum dikunyah
 import java.util.Scanner;
 import java.util.Random;
 public class TheEndOfTheDay {
