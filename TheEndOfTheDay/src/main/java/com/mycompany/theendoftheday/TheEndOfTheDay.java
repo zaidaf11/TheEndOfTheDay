@@ -210,13 +210,42 @@ public class TheEndOfTheDay {
         }
     }
 }
-    static Zombie spawnZombie() {
-        int r = rand.nextInt(5);
+     
+     static Zombie spawnZombie() {
+        int r = rand.nextInt(4);
         if (r == 0) return new Walker();
         else if (r == 1) return new Runner();
         else if (r == 2) return new Tank();
         else return new Dynamite();
     }
+ 
+    static Boss spawnBoss(String bossName) {
+        switch (bossName) {
+            case "Zombie Dokter":
+                return new Boss("Zombie Dokter", 100, 20,
+                    new String[]{"Pasien... tidak boleh... kabur...",
+                                 "OPERASI DARURAT... TANPA BIUS!"});
+            case "Zombie Guru":
+                return new Boss("Zombie Guru", 80, 15,
+                    new String[]{"Kelas... belum... selesai...",
+                                 "NILAI KAMU... NOL BESAR!"});
+            case "Zombie Kasir":
+                return new Boss("Zombie Kasir", 70, 18,
+                    new String[]{"Harga... naik... terus...",
+                                 "DISKON HARI INI... NYAWAMU!"});
+            case "Zombie Polisi":
+                return new Boss("Zombie Polisi", 120, 22,
+                    new String[]{"FREEZE... di bawah... tangkapan...",
+                                 "TIDAK ADA YANG LOLOS... DARI HUKUM!"});
+            default: // Zombie Komandan
+                return new Boss("Zombie Komandan", 200, 30,
+                    new String[]{"Kamu pikir bisa mengaktifkan radio itu?! TIDAK!",
+                                 "SEMUANYA AKAN BERAKHIR... SEKARANG!"});
+        }
+    }
+    
+    
+    
 
     static void randomEvent() {
         int r = rand.nextInt(20);
