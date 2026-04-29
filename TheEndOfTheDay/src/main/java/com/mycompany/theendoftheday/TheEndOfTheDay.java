@@ -20,6 +20,9 @@ public class TheEndOfTheDay {
     static int CDFW = 0;
     
    static Mission mission = new Mission();
+   static Location currentLocation = null;
+   
+   static int foodStock = 0;
     
     public static void main(String[] args) {
         Intro();
@@ -72,9 +75,8 @@ public class TheEndOfTheDay {
             System.out.println("> PERINGATAN: Virus zombie menyebar di tubuhmu! HP berkurang.");
             player.setHP(player.getHP() - 10); // Penalti HP karena infeksi
             
-            // Peluang kecil berubah langsung jadi zombie tiap turn
-            if (rand.nextInt(100) < 15) { 
-                endingZombie();
+             if (mission.isAllMissionComplete()) {
+                endingMenang();
                 break;
             }
 
@@ -96,6 +98,7 @@ public class TheEndOfTheDay {
         System.out.println("Stamina; " + player.getStamina());
         System.out.println("Hunger; " + player.getHunger());
         System.out.println("Weapon; " + player.getWeapon());
+        
         
         
     }
@@ -125,6 +128,18 @@ public class TheEndOfTheDay {
             case 5 : rest(); break;
            
         }
+    }
+    
+    static void makan() {
+        if (foodStock <= 0) {
+            System.out.println("> Kamu tidak punya makanan. Cari dulu di Minimarket atau dari random event.");
+            return;
+        }
+        foodStock--;
+        int pemulihanHunger = 30;
+        player.setHunger(Math.max(0, player.getHunger() - pemulihanHunger));
+        System.out.println("> Kamu membuka kaleng dan memakannya cepat-cepat.");
+        System.out.println("> Lapar berkurang " + pemulihanHunger + ". Sisa makanan: " + foodStock + " kaleng.");
     }
     
     static void findweapon () {
@@ -208,10 +223,10 @@ public class TheEndOfTheDay {
             if (z.HP <= 0) {
                 System.out.println("> Zombie mati!");
             } else {
-                // Zombie menyerang balik jika belum mati
+                
                 z.attack(player);
                 
-                // Peluang terinfeksi saat kena serang
+                
                 if (rand.nextInt(10) < 2) {
                     System.out.println("> Kamu tergigit dalam perkelahian!");
                     player.setInfected(true);
@@ -267,33 +282,115 @@ public class TheEndOfTheDay {
     
 
     static void randomEvent() {
-        int r = rand.nextInt(20);
-        if (r == 0) { System.out.println("> Kamu menemukan makanan!"); player.setHunger(player.getHunger() - 10); }
-        if (r == 1) {
-            System.out.println("> Kamu bertemu survivor...");
-            System.out.println("1. Tolong\n2. Abaikan");
-            int c = input.nextInt();
-            if (c == 1) { System.out.println("> Dia membantu kamu!"); player.setHP(player.getHP() + 10); }
+        int r = rand.nextInt(15);
+
+        if (r == 0) {
+            System.out.println("\n> Kamu mencium bau makanan dari balik reruntuhan...");
+            delay();
+            System.out.println("> Sekaleng sardine! +1 makanan.");
+            foodStock++;
         }
-        
+
+        if (r == 1) {
+            System.out.println("\n> Seseorang memanggil dari balik pintu berkarat...");
+            delay();
+            System.out.println("> \"Hei! Kamu masih hidup? Aku punya obat!\"");
+            System.out.println("1. Tolong dia  2. Abaikan");
+            int c = Integer.parseInt(input.nextLine().trim());
+            if (c == 1) {
+                System.out.println("> Seorang pria tua dengan kotak P3K. 'Terima kasih percaya padaku.' HP +20");
+                player.setHP(player.getHP() + 20);
+            } else {
+                System.out.println("> Kamu berjalan menjauh. Suara pintu itu terus terngiang.");
+            }
+        }
+
         if (r == 2) {
-        System.out.println("> Kamu menemukan persediaan medis bekas...");
-        System.out.println("1. Ambil\n2. Biarkan");
-        int c = input.nextInt();
-        if (c == 1) {
-            System.out.println("> Jarum suntik bekas melukaimu! Kamu terinfeksi virus.");
-            player.setInfected(true);
+            System.out.println("\n> Kamu menemukan jarum suntik di lantai...");
+            delay();
+            System.out.println("1. Suntikkan  2. Buang");
+            int c = Integer.parseInt(input.nextLine().trim());
+            if (c == 1) {
+                if (rand.nextBoolean()) {
+                    System.out.println("> Kamu merasa lebih baik! HP +15");
+                    player.setHP(player.getHP() + 15);
+                    if (player.GetInfected()) { player.setInfected(false); System.out.println("> Infeksi mereda!"); }
+                } else {
+                    System.out.println("> Jarum bekas! Terinfeksi!");
+                    player.setInfected(true);
+                }
+            } else {
+                System.out.println("> Kamu membuangnya.");
+            }
+        }
+
+        if (r == 3) {
+            System.out.println("\n> Kamu menemukan ransel kecil di pinggir jalan.");
+            System.out.println("> Di dalamnya: 2 kaleng makanan! +2 makanan.");
+            foodStock += 2;
+        }
+
+        if (r == 4) {
+            System.out.println("\n> Hujan lebat turun tiba-tiba...");
+            delay();
+            System.out.println("> Zombies melambat. Kamu bisa beristirahat sejenak. HP +5, Stamina +10");
+            player.setHP(player.getHP() + 5);
+            player.setStamina(player.getStamina() + 10);
+        }
+
+        if (r == 5) {
+            System.out.println("\n> Kamu mendengar siaran radio redup...");
+            delay();
+            System.out.println("> '...tolong siapapun yang mendengar... bunker di koordinat...' [terputus]");
+            System.out.println("> Itu cukup untuk meyakinkanmu. Terus bergerak.");
+        }
+
+        if (r == 6) {
+            System.out.println("\n> Zombie datang tiba-tiba dari gang sempit!");
+            delay();
+            battle();
         }
     }
-        else;
-}
+    
     static void hungerSystem() {
         player.setHunger(player.getHunger() + 5);
         if (player.getHunger() >= 50) { System.out.println("> Kamu kelaparan!"); player.setHP(player.getHP() - 5); }
     }
 
        
-    static void endingMati() { System.out.println("> Kamu mati...\nGAME OVER"); }
+   static void endingMati() {
+        System.out.println("\n==========================================");
+        delay();
+        System.out.println("> HP kamu habis...");
+        delay();
+        System.out.println("> Pandanganmu gelap. Lutut menyentuh tanah.");
+        delay();
+        System.out.println("> Di turn ke-" + turn + ", perjalananmu berakhir.");
+        System.out.println("\n=============================");
+        System.out.println("         GAME OVER            ");
+        System.out.println("================================");
+   }
+   
+   
+    static void endingMenang() {
+        System.out.println("\n==========================================");
+        delay();
+        System.out.println("> Kamu memasang baterai terakhir ke radio darurat...");
+        delay();
+        System.out.println("> Lampu merah berkedip. Lalu hijau.");
+        delay();
+        System.out.println("> 'SIARAN DARURAT AKTIF. KOORDINAT TERKIRIM.'");
+        delay();
+        System.out.println("> Kamu duduk di lantai bunker yang dingin.");
+        delay();
+        System.out.println("> Untuk pertama kali sejak semua ini dimulai... kamu tersenyum.");
+        System.out.println("\n=====================================");
+        System.out.println("         KAMU BERHASIL!               ");
+        System.out.println("   Bantuan sedang dalam perjalanan.   ");
+        System.out.println("=======================================");
+        System.out.println("\nSelesai dalam " + turn + " turn.");
+    }
+
     static void endingZombie() { System.out.println("> Kamu berubah jadi zombie...\nENDING: INFECTED"); }
 
     
