@@ -142,6 +142,100 @@ public class TheEndOfTheDay {
         System.out.println("> Lapar berkurang " + pemulihanHunger + ". Sisa makanan: " + foodStock + " kaleng.");
     }
     
+    static void jelajahiArea() {
+        if (currentLocation == null) {
+            System.out.println("> Kamu berada di jalanan. Pilih lokasi dulu untuk dijelajahi.");
+            return;
+        }
+
+        Location loc = currentLocation;
+        System.out.println("\n> Kamu menjelajahi " + loc.getName() + "...");
+        delay();
+
+        // --- FASE 1: Random zombie spawn saat jelajah ---
+        int zombieChance = 55 + (turn / 5) * 5; // Makin lama makin sering (max ~80%)
+        if (rand.nextInt(100) < zombieChance) {
+            System.out.println("> Kamu mendengar suara langkah berat...");
+            delay();
+            System.out.println("> Zombie muncul dari kegelapan!");
+            battle();
+            if (player.getHP() <= 0) return;
+        }
+    
+    if (loc.hasClueStored() && !loc.isClueFound()) {
+            if (rand.nextInt(2) == 0) { // 50% chance ketemu clue tiap jelajah
+                System.out.println("\n> Di antara reruntuhan, kamu menemukan sesuatu...");
+                delay();
+                System.out.println("> [CLUE DITEMUKAN: " + loc.getClueStoredName() + "]");
+                System.out.println("> " + loc.getClueStoredDesc());
+                System.out.print("> Ambil? (1=Ya / 2=Tidak): ");
+                int c = Integer.parseInt(input.nextLine().trim());
+                if (c == 1) {
+                    mission.addClue(loc.getClueStoredName());
+                    loc.setClueFound(true);
+                    System.out.println("> Kamu menyimpan " + loc.getClueStoredName() + ".");
+                } else {
+                    System.out.println("> Kamu membiarkannya. Mungkin berguna nanti.");
+                }
+            } else {
+                System.out.println("> Kamu menggeledah area ini tapi tidak menemukan apa-apa yang menarik.");
+            }
+        }
+    
+    if (!loc.isItemComplete()) {
+            System.out.println("\n> Kamu mencari item utama di " + loc.getName() + "...");
+            delay();
+
+            if (loc.needsClue() && !loc.getClueNeededName().equals("Semua Item")
+                    && !mission.hasClue(loc.getClueNeededName())) {
+                System.out.println("> " + loc.getClueNeededHint());
+                System.out.println("> [Butuh clue: " + loc.getClueNeededName() + "]");
+                return;
+            }
+
+            if (loc.needsClue() && loc.getClueNeededName().equals("Semua Item")
+                    && !mission.isAllItemsExceptBunker()) {
+                System.out.println("> " + loc.getClueNeededHint());
+                System.out.println("> [Kumpulkan semua item dari 4 lokasi lainnya terlebih dahulu!]");
+                return;
+            }            // Punya clue → bisa akses item, tapi masih ada chance random zombie
+            System.out.println("> Kamu menuju tempat penyimpanan...");
+            delay();
+            if (rand.nextInt(100) < 40) {
+                System.out.println("> Zombie menjaga item ini!");
+                battle();
+                if (player.getHP() <= 0) return;
+            }
+
+            printItemAccessDialog(loc);
+            boolean berhasil = loc.collectItem();
+            if (berhasil) {
+                System.out.println("> [" + loc.getItemName() + " didapat! "
+                        + loc.getItemCollected() + "/" + loc.getItemRequired() + "]");
+
+                if (loc.isItemComplete()) {
+                    mission.addItem(loc.getItemName());
+                    printItemCollectedDialog(loc.getItemName());
+                    System.out.println("\n>>> Semua " + loc.getItemName() + " di " + loc.getName() + " terkumpul!");
+                    System.out.println("> Waspadai sesuatu yang mengintai...");
+                    loc.setBossTriggered(true); // Boss akan muncul di turn berikutnya
+                } else {
+                    System.out.println("> Masih butuh " + (loc.getItemRequired() - loc.getItemCollected())
+                            + " lagi. Jelajahi lebih lanjut.");
+                }
+            }
+        } else if (!loc.isBossDefeated()) {
+            System.out.println("> Semua item sudah diambil. " + loc.getBossName() + " masih mengintai...");
+        } else {
+            System.out.println("> " + loc.getName() + " sudah bersih. Tidak ada yang tersisa di sini.");
+            // Kecil kemungkinan ketemu makanan bonus
+            if (rand.nextInt(5) == 0) {
+                System.out.println("> Kamu menemukan kaleng makanan tersisa! +1 makanan.");
+                foodStock++;
+            }
+        }
+    }
+    
     static void findweapon () {
         CDFW = 3;
         System.out.println("Mencari senjata...");
@@ -201,6 +295,56 @@ public class TheEndOfTheDay {
    
     }
     
+    static void bossBattle(Location loc) {
+        Boss boss = spawnBoss(loc.getBossName());
+
+        System.out.println("\n==========================");
+        System.out.println("  BOSS BATTLE: " + loc.getBossName());
+        System.out.println("=============================");
+        boss.printIntroDialog();
+        delay();
+
+        while (boss.HP > 0 && player.getHP() > 0) {
+            System.out.println("\n[ Boss HP: " + boss.HP + "/" + boss.getMaxHP()
+                    + " | Player HP: " + player.getHP() + " ]");
+            if (boss.getPhase() == 2) System.out.println("  !! FASE 2 - BOSS MENGAMUK !!");
+            System.out.println("1. Serang");
+            System.out.println("2. Kabur dari lokasi");
+            System.out.print("Pilihanmu: ");
+            int c = Integer.parseInt(input.nextLine().trim());
+
+            if (c == 1) {
+                boss.HP -= player.getDamage();
+                System.out.println("> Kamu menyerang! Damage: " + player.getDamage());
+
+                if (boss.HP <= 0) {
+                    System.out.println("\n> " + boss.getBossName() + " ROBOH!");
+                    System.out.println("> \"" + getBossDeathDialog(loc.getBossName()) + "\"");
+                    loc.setBossDefeated(true);
+                    loc.setBossTriggered(false);
+                    System.out.println("> " + loc.getName() + " kini aman.");
+                } else {
+                    boss.attack(player);
+                    if (rand.nextInt(10) < 3) {
+                        System.out.println("> Kamu tergigit boss! Terinfeksi!");
+                        player.setInfected(true);
+                    }
+                }
+            } else if (c == 2) {
+                if (rand.nextBoolean()) {
+                    System.out.println("> Kamu berhasil kabur! Boss tetap mengintai di sini.");
+                    currentLocation = null;
+                    return;
+                } else {
+                    System.out.println("> Kabur gagal! Boss menghadangmu!");
+                    boss.attack(player);
+                }
+            }
+
+            if (player.getHP() <= 0) return;
+        }
+    }
+    
      static void battle() {
     Zombie z = spawnZombie(); 
     System.out.println("> Zombie muncul: " + z.getType());
@@ -220,9 +364,13 @@ public class TheEndOfTheDay {
             z.HP -= player.getDamage();
             System.out.println("> Kamu menyerang! Damage: " + player.getDamage());
 
-            if (z.HP <= 0) {
-                System.out.println("> Zombie mati!");
-            } else {
+             if (z.HP <= 0) {
+                    System.out.println("> Zombie mati!");
+           
+                    if (rand.nextInt(6) == 0) {
+                        System.out.println("> Zombie menjatuhkan kaleng makanan! +1 makanan.");
+                        foodStock++;
+                    }
                 
                 z.attack(player);
                 
@@ -233,17 +381,18 @@ public class TheEndOfTheDay {
                 }
             }
         } 
-        else if (c == 2) { // JIKA MEMILIH KABUR
+        else if (c == 2) {
             if (rand.nextBoolean()) { 
                 System.out.println("> Berhasil kabur dari pertarungan!");
-                return; // Keluar dari method battle dan lanjut ke turn berikutnya
+                return; 
             } else {
                 System.out.println("> Gagal kabur! Zombie menyerangmu!");
                 z.attack(player);
             }
         }
     }
-}
+}    
+
      
      static Zombie spawnZombie() {
         int r = rand.nextInt(4);
@@ -276,6 +425,62 @@ public class TheEndOfTheDay {
                     new String[]{"Kamu pikir bisa mengaktifkan radio itu?! TIDAK!",
                                  "SEMUANYA AKAN BERAKHIR... SEKARANG!"});
         }
+    }
+    
+    static void printItemAccessDialog(Location loc) {
+        delay();
+        switch (loc.getItemName()) {
+            case "Obat Antivirus":
+                System.out.println("> Kamu menuju ruang penyimpanan obat dengan kartu akses itu...");
+                System.out.println("> Pintu berbunyi 'klik'. Di dalam, rak berisi suntikan antivirus.");
+                break;
+            case "Peta Kota":
+                System.out.println("> Kamu mengetik kode 7887 di lemari besi ruang guru...");
+                System.out.println("> Lemari terbuka. Di dalam ada peta kota yang sudah dilipat rapi.");
+                break;
+            case "Kaleng Makanan":
+                System.out.println("> Kamu menerobos ke rak paling belakang, menyingkirkan kardus merah...");
+                System.out.println("> Di baliknya, tumpukan kaleng makanan yang belum terjamah!");
+                break;
+            case "Amunisi":
+                System.out.println("> Kunci L-09 masuk dengan sempurna...");
+                System.out.println("> Di dalam loker, kotak amunisi masih tersegel rapat.");
+                break;
+            case "Baterai Radio":
+                System.out.println("> Kamu masuk ke dalam bunker. Radio darurat ada di sana.");
+                System.out.println("> Tinggal satu langkah lagi...");
+                break;
+        }
+        delay();
+    }
+    
+    static void printItemCollectedDialog(String itemName) {
+        delay();
+        switch (itemName) {
+            case "Peta Kota":
+                System.out.println("> Kamu membuka peta. Ada tanda X di beberapa titik kota.");
+                System.out.println("> Salah satunya: Bunker bawah tanah. Ini yang kamu cari.");
+                break;
+            case "Obat Antivirus":
+                System.out.println("> Dua dosis antivirus. Cukup untuk memperlambat infeksi.");
+                System.out.println("> Kamu menyimpannya hati-hati. Ini mungkin satu-satunya harapan.");
+                break;
+            case "Kaleng Makanan":
+                System.out.println("> Tiga kaleng. Cukup untuk beberapa hari ke depan.");
+                System.out.println("> Di salah satunya ada tulisan tangan: 'Jangan menyerah'.");
+                foodStock += 3; // Kaleng makanan langsung masuk ke food stock!
+                System.out.println("> +3 kaleng makanan ditambahkan ke inventory!");
+                break;
+            case "Amunisi":
+                System.out.println("> Kamu mengisi senjata. Untuk pertama kali, kamu merasa lebih siap.");
+                System.out.println("> Satu langkah lagi menuju bunker.");
+                break;
+            case "Baterai Radio":
+                System.out.println("> INI DIA. Baterai Radio terakhir.");
+                System.out.println("> Kamu merasakannya — harapan nyata untuk pertama kalinya.");
+                break;
+        }
+        delay();
     }
     
     
