@@ -19,15 +19,33 @@ public class TheEndOfTheDay {
    
     static int CDFW = 0;
     
+   static Mission mission = new Mission();
+    
     public static void main(String[] args) {
         Intro();
         gameloop();
+        
     }
         public static void Intro() {
-        System.out.println("Kamu terbangun di tengah-tengah kerumunan para Zombie!");
+            
+        System.out.println("====================");
+        System.out.println("The End Of The Day");
+        System.out.println("====================");
+        
+        System.out.println("\nKamu terbangun di jalanan yang sunyi...");
         delay();
-        System.out.println("Hari mulai mencekam, apa yang akan kamu lakukan?");
+        System.out.println("Darah di tanganmu. Suara erangan di kejauhan.");
         delay();
+        System.out.println("Kamu tidak ingat apa-apa. Tapi satu hal jelas:");
+        delay();
+        System.out.println("> Kamu harus keluar dari kota ini.");
+        delay();
+        System.out.println("\nAda radio darurat di bunker bawah kota.");
+        System.out.println("Aktifkan radio itu — bantuan akan datang.");
+        delay();
+        System.out.println("> Tapi jalan menuju sana tidak mudah...");
+        delay();
+        mission.showMissionStatus();
         }
         static void gameloop() {
     boolean gameRunning = true;
