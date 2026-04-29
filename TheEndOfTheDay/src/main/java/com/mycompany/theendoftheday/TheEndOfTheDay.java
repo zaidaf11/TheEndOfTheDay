@@ -53,6 +53,7 @@ public class TheEndOfTheDay {
     while (gameRunning) {
         System.out.println("==================");
         System.out.println("\n=== TURN " + turn + " ===");
+        mission.showMissionStatus();
         showStatus();
         
         actionMenu();
