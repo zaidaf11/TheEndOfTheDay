@@ -56,7 +56,6 @@ public class TheEndOfTheDay {
     while (gameRunning) {
         System.out.println("==================");
         System.out.println("\n=== TURN " + turn + " ===");
-        mission.showMissionStatus();
         showStatus();
         
         actionMenu();
@@ -94,39 +93,61 @@ public class TheEndOfTheDay {
     }
 
     static void showStatus() {
-        System.out.println("HP; " + player.getHP());
-        System.out.println("Stamina; " + player.getStamina());
-        System.out.println("Hunger; " + player.getHunger());
-        System.out.println("Weapon; " + player.getWeapon());
-        
-        
-        
+        System.out.println("[ HP: " + player.getHP()
+                + " | Stamina: " + player.getStamina()
+                + " | Lapar: " + player.getHunger() + "/100"
+                + " | Senjata: " + player.getWeapon()
+                + " | Makanan: " + foodStock + " kaleng ]");
+        if (player.GetInfected()) System.out.println("  !! STATUS: TERINFEKSI VIRUS !!");
+        if (currentLocation != null)
+            System.out.println("  Lokasi: " + currentLocation.getName());
+        else
+            System.out.println("  Lokasi: Jalanan");
     }
-    static void actionMenu () {
-        System.out.println("1. Cari Senjata");
-        System.out.println("2. Serang Zombie");
-        System.out.println("3. Sembunyi");
-        System.out.println("4. Lari");
-        System.out.println("5. Istirahat");
-        System.out.print("Apa pilihan kamu (1-5)? ");
-        int pilihan = input.nextInt();
-        
-        
-        switch(pilihan){
-            case 1 : 
-                if (CDFW <= 0){
-                    findweapon();
-                    
-                }else{
-                    
-                    System.out.println("Ti1dak bisa Mengambil lagi Senjata tunggu "+CDFW+ " Turn lagi");
-                } 
+    
+    
+    static void checkBossTrigger() {
+        if (currentLocation == null) return;
+        Location loc = currentLocation;
+
+        if (loc.isItemComplete() && !loc.isBossTriggered() && !loc.isBossDefeated()) {
+            System.out.println("\n>>> GEMURUH TERDENGAR DARI DALAM " + loc.getName().toUpperCase() + "! <<<");
+            delay();
+            System.out.println("> Sesuatu yang besar bergerak... " + loc.getBossName() + " muncul!");
+            delay();
+            bossBattle(loc);
+        }
+    }
+    
+    
+    static void actionMenu() {
+        System.out.println("\n--- APA YANG KAMU LAKUKAN? ---");
+        System.out.println("1. Pindah Lokasi");
+        System.out.println("2. Jelajahi Area");
+        System.out.println("3. Cari Senjata");
+        System.out.println("4. Makan (Stok: " + foodStock + " kaleng)");
+        System.out.println("5. Sembunyi");
+        System.out.println("6. Lari");
+        System.out.println("7. Istirahat");
+        System.out.println("8. Cek Status Misi");
+        System.out.print("Pilihanmu (1-8): ");
+
+        int pilihan;
+        try { pilihan = Integer.parseInt(input.nextLine().trim()); }
+        catch (NumberFormatException e) { pilihan = -1; }
+        switch (pilihan) {
+            case 1: pindahLokasi(); break;
+            case 2: jelajahiArea(); break;
+            case 3:
+                if (CDFW <= 0) findweapon();
+                else System.out.println("> Tunggu " + CDFW + " turn lagi untuk cari senjata.");
                 break;
-            case 2 : battle(); break;
-            case 3 : hide(); break;
-            case 4 : runAway(); break;
-            case 5 : rest(); break;
-           
+            case 4: makan(); break;
+            case 5: hide(); break;
+            case 6: runAway(); break;
+            case 7: rest(); break;
+            case 8: mission.showMissionStatus(); break;
+            default: System.out.println("> Pilihan tidak valid.");
         }
     }
     
@@ -142,6 +163,48 @@ public class TheEndOfTheDay {
         System.out.println("> Lapar berkurang " + pemulihanHunger + ". Sisa makanan: " + foodStock + " kaleng.");
     }
     
+     static void pindahLokasi() {
+        Location[] locations = mission.getLocations();
+
+        System.out.println("\n=== PILIH LOKASI ===");
+        for (int i = 0; i < locations.length; i++) {
+            Location loc = locations[i];
+            String tag;
+            if (loc.isItemComplete() && loc.isBossDefeated()) tag = "[SELESAI]";
+            else if (loc.isItemComplete() && !loc.isBossDefeated()) tag = "[BOSS MENUNGGU!]";
+            else tag = "[BELUM SELESAI]";
+            System.out.println((i + 1) + ". " + loc.getName() + " " + tag);
+            System.out.println("   " + loc.getDescription());
+        }
+        System.out.println("0. Batal");
+        System.out.print("Pilih (0-" + locations.length + "): ");
+
+        int pilihan;
+        try { pilihan = Integer.parseInt(input.nextLine().trim()); }
+        catch (NumberFormatException e) { pilihan = -1; }
+        if (pilihan == 0) { System.out.println("> Kamu tidak jadi pindah."); return; }
+        if (pilihan < 1 || pilihan > locations.length) { System.out.println("> Tidak valid."); return; }
+
+        Location tujuan = locations[pilihan - 1];
+        currentLocation = tujuan;
+
+        System.out.println("\n> Kamu bergerak menuju " + tujuan.getName() + "...");
+        delay();
+
+        // Zombie acak bisa muncul di jalanan saat pindah lokasi
+        if (rand.nextInt(3) == 0) {
+            System.out.println("> Di perjalanan, zombie menghadangmu!");
+            delay();
+            battle();
+            if (player.getHP() <= 0) return;
+        }
+
+        System.out.println("\n" + tujuan.getEnterDialog());
+        delay();
+        player.setStamina(player.getStamina() - 5);
+        System.out.println("> Stamina -5 karena perjalanan.");
+    }
+    
     static void jelajahiArea() {
         if (currentLocation == null) {
             System.out.println("> Kamu berada di jalanan. Pilih lokasi dulu untuk dijelajahi.");
@@ -152,8 +215,7 @@ public class TheEndOfTheDay {
         System.out.println("\n> Kamu menjelajahi " + loc.getName() + "...");
         delay();
 
-        // --- FASE 1: Random zombie spawn saat jelajah ---
-        int zombieChance = 55 + (turn / 5) * 5; // Makin lama makin sering (max ~80%)
+        int zombieChance = 10 + (turn / 5) * 5; // Makin lama makin sering (max ~80%)
         if (rand.nextInt(100) < zombieChance) {
             System.out.println("> Kamu mendengar suara langkah berat...");
             delay();
@@ -218,7 +280,7 @@ public class TheEndOfTheDay {
                     printItemCollectedDialog(loc.getItemName());
                     System.out.println("\n>>> Semua " + loc.getItemName() + " di " + loc.getName() + " terkumpul!");
                     System.out.println("> Waspadai sesuatu yang mengintai...");
-                    loc.setBossTriggered(true); // Boss akan muncul di turn berikutnya
+                    loc.setBossTriggered(true);
                 } else {
                     System.out.println("> Masih butuh " + (loc.getItemRequired() - loc.getItemCollected())
                             + " lagi. Jelajahi lebih lanjut.");
@@ -228,7 +290,6 @@ public class TheEndOfTheDay {
             System.out.println("> Semua item sudah diambil. " + loc.getBossName() + " masih mengintai...");
         } else {
             System.out.println("> " + loc.getName() + " sudah bersih. Tidak ada yang tersisa di sini.");
-            // Kecil kemungkinan ketemu makanan bonus
             if (rand.nextInt(5) == 0) {
                 System.out.println("> Kamu menemukan kaleng makanan tersisa! +1 makanan.");
                 foodStock++;
@@ -452,6 +513,16 @@ public class TheEndOfTheDay {
                 break;
         }
         delay();
+    }
+    
+    static String getBossDeathDialog(String bossName) {
+        switch (bossName) {
+            case "Zombie Dokter":  return "Diagnosis terakhir... kamu selamat...";
+            case "Zombie Guru":    return "Kelas... di... misikan...";
+            case "Zombie Kasir":   return "Struk belanjaan... sudah dicetak...";
+            case "Zombie Polisi":  return "Kamu... bebas... pergi...";
+            default:               return "TIDAK MUNGKIN... PASUKANKU... GAGAL...";
+        }
     }
     
     static void printItemCollectedDialog(String itemName) {
