@@ -19,7 +19,7 @@ public class Player {
     private boolean Infected;
     
     public Player (){
-        HP = 1;
+        HP = 200;
         Stamina = 90;
         Hunger = 0;
         Weapon = "Tangan Kosong";
