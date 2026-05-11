@@ -28,6 +28,7 @@ public class TheEndOfTheDay {
         Intro();
         gameloop();
         
+        
     }
         public static void Intro() {
             
@@ -54,9 +55,12 @@ public class TheEndOfTheDay {
     boolean gameRunning = true;
 
     while (gameRunning) {
+        System.out.print("\f"); 
         System.out.println("==================");
         System.out.println("\n=== TURN " + turn + " ===");
         showStatus();
+        
+        
         
         actionMenu();
         randomEvent();
@@ -106,18 +110,6 @@ public class TheEndOfTheDay {
     }
     
     
-    static void checkBossTrigger() {
-        if (currentLocation == null) return;
-        Location loc = currentLocation;
-
-        if (loc.isItemComplete() && !loc.isBossTriggered() && !loc.isBossDefeated()) {
-            System.out.println("\n>>> GEMURUH TERDENGAR DARI DALAM " + loc.getName().toUpperCase() + "! <<<");
-            delay();
-            System.out.println("> Sesuatu yang besar bergerak... " + loc.getBossName() + " muncul!");
-            delay();
-            bossBattle(loc);
-        }
-    }
     
     
     static void actionMenu() {
@@ -133,7 +125,7 @@ public class TheEndOfTheDay {
         System.out.print("Pilihanmu (1-8): ");
 
         int pilihan;
-        try { pilihan = Integer.parseInt(input.nextLine().trim()); }
+        try { pilihan = readInt(); }
         catch (NumberFormatException e) { pilihan = -1; }
         switch (pilihan) {
             case 1: pindahLokasi(); break;
@@ -180,7 +172,7 @@ public class TheEndOfTheDay {
         System.out.print("Pilih (0-" + locations.length + "): ");
 
         int pilihan;
-        try { pilihan = Integer.parseInt(input.nextLine().trim()); }
+        try { pilihan = readInt(); }
         catch (NumberFormatException e) { pilihan = -1; }
         if (pilihan == 0) { System.out.println("> Kamu tidak jadi pindah."); return; }
         if (pilihan < 1 || pilihan > locations.length) { System.out.println("> Tidak valid."); return; }
@@ -231,7 +223,7 @@ public class TheEndOfTheDay {
                 System.out.println("> [CLUE DITEMUKAN: " + loc.getClueStoredName() + "]");
                 System.out.println("> " + loc.getClueStoredDesc());
                 System.out.print("> Ambil? (1=Ya / 2=Tidak): ");
-                int c = Integer.parseInt(input.nextLine().trim());
+                int c = readInt();
                 if (c == 1) {
                     mission.addClue(loc.getClueStoredName());
                     loc.setClueFound(true);
@@ -276,15 +268,20 @@ public class TheEndOfTheDay {
                         + loc.getItemCollected() + "/" + loc.getItemRequired() + "]");
 
                 if (loc.isItemComplete()) {
-                    mission.addItem(loc.getItemName());
-                    printItemCollectedDialog(loc.getItemName());
-                    System.out.println("\n>>> Semua " + loc.getItemName() + " di " + loc.getName() + " terkumpul!");
-                    System.out.println("> Waspadai sesuatu yang mengintai...");
-                    loc.setBossTriggered(true);
-                } else {
-                    System.out.println("> Masih butuh " + (loc.getItemRequired() - loc.getItemCollected())
-                            + " lagi. Jelajahi lebih lanjut.");
-                }
+                mission.addItem(loc.getItemName());
+                 printItemCollectedDialog(loc.getItemName());
+                 System.out.println("\n>>> Semua " + loc.getItemName()
+                 + " di " + loc.getName() + " terkumpul!");
+
+    // ↓ INI BOSS TRIGGERNYA ↓
+                 System.out.println("\n>>> GEMURUH DARI DALAM "
+                + loc.getName().toUpperCase() + "! <<<");
+                delay();
+                System.out.println("> " + loc.getBossName() + " muncul menghalangimu!");
+                 delay();
+                 loc.setBossTriggered(true);
+                bossBattle(loc); // ← langsung panggil boss battle
+}
             }
         } else if (!loc.isBossDefeated()) {
             System.out.println("> Semua item sudah diambil. " + loc.getBossName() + " masih mengintai...");
@@ -372,7 +369,7 @@ public class TheEndOfTheDay {
             System.out.println("1. Serang");
             System.out.println("2. Kabur dari lokasi");
             System.out.print("Pilihanmu: ");
-            int c = Integer.parseInt(input.nextLine().trim());
+            int c = readInt();
 
             if (c == 1) {
                 boss.HP -= player.getDamage();
@@ -391,6 +388,16 @@ public class TheEndOfTheDay {
                         player.setInfected(true);
                     }
                 }
+                
+                if (loc.getBossName().equals("Zombie Komandan")) {
+                        System.out.println("\n> Di balik tubuh Komandan yang roboh, kamu melihatnya...");
+                        delay();
+                        System.out.println("> RADIO DARURAT. Masih menyala. Baterai penuh.");
+                        delay();
+                        System.out.println("> Tanganmu gemetar saat menekan tombol siaran.");
+                        endingMenang();
+                        
+                       
             } else if (c == 2) {
                 if (rand.nextBoolean()) {
                     System.out.println("> Kamu berhasil kabur! Boss tetap mengintai di sini.");
@@ -404,6 +411,7 @@ public class TheEndOfTheDay {
 
             if (player.getHP() <= 0) return;
         }
+        }
     }
     
      static void battle() {
@@ -414,7 +422,7 @@ public class TheEndOfTheDay {
         System.out.println("\n1. Serang");
         System.out.println("2. Kabur");
         System.out.print("Pilihanmu: ");
-        int c = input.nextInt();
+        int c = readInt();
 
         if (c == 1) { // JIKA MEMILIH SERANG
             if (z instanceof Dynamite) {
@@ -481,7 +489,7 @@ public class TheEndOfTheDay {
                 return new Boss("Zombie Polisi", 120, 22,
                     new String[]{"FREEZE... di bawah... tangkapan...",
                                  "TIDAK ADA YANG LOLOS... DARI HUKUM!"});
-            default: // Zombie Komandan
+            default: 
                 return new Boss("Zombie Komandan", 200, 30,
                     new String[]{"Kamu pikir bisa mengaktifkan radio itu?! TIDAK!",
                                  "SEMUANYA AKAN BERAKHIR... SEKARANG!"});
@@ -572,7 +580,7 @@ public class TheEndOfTheDay {
             delay();
             System.out.println("> \"Hei! Kamu masih hidup? Aku punya obat!\"");
             System.out.println("1. Tolong dia  2. Abaikan");
-            int c = Integer.parseInt(input.nextLine().trim());
+            int c = readInt();
             if (c == 1) {
                 System.out.println("> Seorang pria tua dengan kotak P3K. 'Terima kasih percaya padaku.' HP +20");
                 player.setHP(player.getHP() + 20);
@@ -585,16 +593,12 @@ public class TheEndOfTheDay {
             System.out.println("\n> Kamu menemukan jarum suntik di lantai...");
             delay();
             System.out.println("1. Suntikkan  2. Buang");
-            int c = Integer.parseInt(input.nextLine().trim());
+            int c = readInt();
             if (c == 1) {
-                if (rand.nextBoolean()) {
                     System.out.println("> Kamu merasa lebih baik! HP +15");
                     player.setHP(player.getHP() + 15);
                     if (player.GetInfected()) { player.setInfected(false); System.out.println("> Infeksi mereda!"); }
-                } else {
-                    System.out.println("> Jarum bekas! Terinfeksi!");
-                    player.setInfected(true);
-                }
+                
             } else {
                 System.out.println("> Kamu membuangnya.");
             }
@@ -708,9 +712,20 @@ public class TheEndOfTheDay {
             System.out.println("HP kamu bertambah 5..");
     
         player.setStamina(player.getStamina() + 10);
-        player.setHP(player.getHP() + 5);
+        player.setHP(player.getHP() + 10);
     
     }
+    
+    static int readInt() {
+    while (true) {
+        try {
+            String line = input.nextLine().trim();
+            return Integer.parseInt(line);
+        } catch (NumberFormatException e) {
+            System.out.print("> Input tidak valid, masukkan angka: ");
+        }
+    }
+}
     
        
     

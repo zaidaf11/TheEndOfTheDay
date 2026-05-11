@@ -12,7 +12,7 @@ import com.mycompany.theendoftheday.Zombie;
  */
 public class Tank extends Zombie{
      public Tank (){
-        HP = 50;
+        HP = 65;
         Damage = 5;
       
     }

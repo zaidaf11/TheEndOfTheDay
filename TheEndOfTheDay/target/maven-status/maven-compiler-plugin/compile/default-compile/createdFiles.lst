@@ -1,6 +1,4 @@
-com\mycompany\theendoftheday\Mission.class
 com\mycompany\theendoftheday\Tank.class
-com\mycompany\theendoftheday\Zombie.class
 com\mycompany\theendoftheday\Player.class
 com\mycompany\theendoftheday\TheEndOfTheDay.class
 com\mycompany\theendoftheday\Boss.class
@@ -8,3 +6,7 @@ com\mycompany\theendoftheday\Walker.class
 com\mycompany\theendoftheday\Dynamite.class
 com\mycompany\theendoftheday\Location.class
 com\mycompany\theendoftheday\Runner.class
+com\mycompany\theendoftheday\Mission.class
+com\mycompany\theendoftheday\Zombie.class
+com\mycompany\theendoftheday\Gameconsole$1.class
+com\mycompany\theendoftheday\Gameconsole.class

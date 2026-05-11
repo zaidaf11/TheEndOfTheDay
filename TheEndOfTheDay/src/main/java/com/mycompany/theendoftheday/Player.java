@@ -19,11 +19,11 @@ public class Player {
     private boolean Infected;
     
     public Player (){
-        HP = 100;
+        HP = 1;
         Stamina = 90;
         Hunger = 0;
         Weapon = "Tangan Kosong";
-        Damage = 10;
+        Damage = 2000;
         Infected = false;
     }
     public int getHP (){return HP;}
