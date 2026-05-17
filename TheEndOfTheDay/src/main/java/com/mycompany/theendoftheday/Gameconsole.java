@@ -119,29 +119,29 @@ public class Gameconsole {
         SCENE_LABELS.put("jelajah_minimarket",    "Menjelajahi Minimarket"); //done
         SCENE_LABELS.put("jelajah_kantor_polisi", "Menjelajahi Kantor Polisi"); //done
         SCENE_LABELS.put("jelajah_bunker",        "Menjelajahi Bunker"); //done
-        SCENE_LABELS.put("cari_senjata",      "Mencari Senjata");
-        SCENE_LABELS.put("pindah_lokasi",     "Pindah Lokasi");
-        SCENE_LABELS.put("sembunyi",          "Bersembunyi");
-        SCENE_LABELS.put("istirahat",         "Beristirahat");
-        SCENE_LABELS.put("makan",             "Makan");
-        SCENE_LABELS.put("battle",            "!! PERTARUNGAN !!");
-        SCENE_LABELS.put("battle_walker",     "!! Walker Zombie !!");
-        SCENE_LABELS.put("battle_runner",     "!! Runner Zombie !!");
-        SCENE_LABELS.put("battle_tank",       "!! Tank Zombie !!");
-        SCENE_LABELS.put("battle_dynamite",   "!! Dynamite Zombie !!");
+        SCENE_LABELS.put("cari_senjata",      "Mencari Senjata"); 
+        SCENE_LABELS.put("pindah_lokasi",     "Pindah Lokasi"); //done
+        SCENE_LABELS.put("sembunyi",          "Bersembunyi"); //done
+        SCENE_LABELS.put("istirahat",         "Beristirahat"); 
+        SCENE_LABELS.put("makan",             "Makan"); //outputnya teks aja
+        SCENE_LABELS.put("battle",            "!! PERTARUNGAN !!"); //done
+        SCENE_LABELS.put("battle_walker",     "!! Walker Zombie !!"); //done
+        SCENE_LABELS.put("battle_runner",     "!! Runner Zombie !!"); //done
+        SCENE_LABELS.put("battle_tank",       "!! Tank Zombie !!"); //done
+        SCENE_LABELS.put("battle_dynamite",   "!! Dynamite Zombie !!"); //done
         SCENE_LABELS.put("boss_dokter",       "BOSS: Zombie Dokter"); //done
         SCENE_LABELS.put("boss_guru",         "BOSS: Zombie Guru"); //done
-        SCENE_LABELS.put("boss_kasir",        "BOSS: Zombie Kasir"); 
-        SCENE_LABELS.put("boss_polisi",       "BOSS: Zombie Polisi");
-        SCENE_LABELS.put("boss_komandan",     "BOSS FINAL: Komandan!");
-        SCENE_LABELS.put("boss_phase2",       "FASE 2 - MENGAMUK!!");
-        SCENE_LABELS.put("event_makanan",     "Menemukan Makanan");
-        SCENE_LABELS.put("event_orang",       "Orang Asing...");
-        SCENE_LABELS.put("event_jarum",       "Jarum Suntik"); 
-        SCENE_LABELS.put("event_ransel",      "Menemukan Ransel");
-        SCENE_LABELS.put("event_hujan",       "Hujan Lebat");
-        SCENE_LABELS.put("event_radio",       "Siaran Radio Redup");
-        SCENE_LABELS.put("event_zombie_gang", "Zombie dari Gang!");
+        SCENE_LABELS.put("boss_kasir",        "BOSS: Zombie Kasir"); //done
+        SCENE_LABELS.put("boss_polisi",       "BOSS: Zombie Polisi"); //done
+        SCENE_LABELS.put("boss_komandan",     "BOSS FINAL: Komandan!"); //done
+        SCENE_LABELS.put("boss_phase2",       "FASE 2 - MENGAMUK!!"); //done
+        SCENE_LABELS.put("event_makanan",     "Menemukan Makanan"); //done
+        SCENE_LABELS.put("event_orang",       "Orang Asing..."); //done
+        SCENE_LABELS.put("event_jarum",       "Jarum Suntik"); //done
+        SCENE_LABELS.put("event_ransel",      "Menemukan Ransel"); //done
+        SCENE_LABELS.put("event_hujan",       "Hujan Lebat"); //done
+        SCENE_LABELS.put("event_radio",       "Siaran Radio Redup"); //done
+        SCENE_LABELS.put("event_zombie_gang", "Zombie dari Gang!"); //outputnya teks aja
         SCENE_LABELS.put("item_antivirus",    "[+] Obat Antivirus!"); //done
         SCENE_LABELS.put("item_peta",         "[+] Peta Kota!"); //done
         SCENE_LABELS.put("item_kaleng",       "[+] Kaleng Makanan!"); //done
@@ -152,8 +152,8 @@ public class Gameconsole {
         SCENE_LABELS.put("clue_kunci_loker",  "[!] Kunci Loker L-09 ditemukan!"); //done
         SCENE_LABELS.put("clue_kertas_kode",  "[!] Kertas Kode 7887 ditemukan!"); //done
         SCENE_LABELS.put("game_over",         "=== GAME OVER ==="); //done
-        SCENE_LABELS.put("menang",            "=== KAMU BERHASIL! ==="); 
-        SCENE_LABELS.put("terinfeksi",        "[!] TERINFEKSI VIRUS");
+        SCENE_LABELS.put("menang",            "=== KAMU BERHASIL! ==="); //done 
+        SCENE_LABELS.put("terinfeksi",        "[!] TERINFEKSI VIRUS"); //done
 
         Color cLoc  = new Color(140, 200, 140);
         Color cAct  = new Color(120, 170, 200);
