@@ -106,23 +106,22 @@ public class Gameconsole {
         };
         for (String k : all) SCENE_IMAGES.put(k, "/images/" + k + ".png");
 
-        SCENE_LABELS.put("intro",             "The End Of The Day");
-        SCENE_LABELS.put("jalanan",           "Jalanan Kota");
-        SCENE_LABELS.put("rumah_sakit",       "Rumah Sakit");
-        SCENE_LABELS.put("sekolah",           "Sekolah");
-        SCENE_LABELS.put("minimarket",        "Minimarket");
-        SCENE_LABELS.put("kantor_polisi",     "Kantor Polisi");
-        SCENE_LABELS.put("bunker",            "Bunker");
-        SCENE_LABELS.put("jelajah_jalanan",       "Menjelajahi Jalanan");
-        SCENE_LABELS.put("jelajah_rumah_sakit",   "Menjelajahi Rumah Sakit");
-        SCENE_LABELS.put("jelajah_sekolah",       "Menjelajahi Sekolah");
-        SCENE_LABELS.put("jelajah_minimarket",    "Menjelajahi Minimarket");
-        SCENE_LABELS.put("jelajah_kantor_polisi", "Menjelajahi Kantor Polisi");
-        SCENE_LABELS.put("jelajah_bunker",        "Menjelajahi Bunker");
+        SCENE_LABELS.put("intro",             "The End Of The Day"); //done
+        SCENE_LABELS.put("jalanan",           "Jalanan Kota"); //done
+        SCENE_LABELS.put("rumah_sakit",       "Rumah Sakit");//done
+        SCENE_LABELS.put("sekolah",           "Sekolah"); //done
+        SCENE_LABELS.put("minimarket",        "Minimarket"); //done
+        SCENE_LABELS.put("kantor_polisi_1",     "Kantor Polisi"); //done
+        SCENE_LABELS.put("bunker",            "Bunker"); //done
+        SCENE_LABELS.put("jelajah_jalanan",       "Menjelajahi Jalanan"); //done
+        SCENE_LABELS.put("jelajah_rumah_sakit",   "Menjelajahi Rumah Sakit"); //done
+        SCENE_LABELS.put("jelajah_sekolah",       "Menjelajahi Sekolah"); //done
+        SCENE_LABELS.put("jelajah_minimarket",    "Menjelajahi Minimarket"); //done
+        SCENE_LABELS.put("jelajah_kantor_polisi", "Menjelajahi Kantor Polisi"); //done
+        SCENE_LABELS.put("jelajah_bunker",        "Menjelajahi Bunker"); //done
         SCENE_LABELS.put("cari_senjata",      "Mencari Senjata");
         SCENE_LABELS.put("pindah_lokasi",     "Pindah Lokasi");
         SCENE_LABELS.put("sembunyi",          "Bersembunyi");
-        SCENE_LABELS.put("kabur",             "Melarikan Diri");
         SCENE_LABELS.put("istirahat",         "Beristirahat");
         SCENE_LABELS.put("makan",             "Makan");
         SCENE_LABELS.put("battle",            "!! PERTARUNGAN !!");
@@ -130,30 +129,30 @@ public class Gameconsole {
         SCENE_LABELS.put("battle_runner",     "!! Runner Zombie !!");
         SCENE_LABELS.put("battle_tank",       "!! Tank Zombie !!");
         SCENE_LABELS.put("battle_dynamite",   "!! Dynamite Zombie !!");
-        SCENE_LABELS.put("boss_dokter",       "BOSS: Zombie Dokter");
-        SCENE_LABELS.put("boss_guru",         "BOSS: Zombie Guru");
-        SCENE_LABELS.put("boss_kasir",        "BOSS: Zombie Kasir");
+        SCENE_LABELS.put("boss_dokter",       "BOSS: Zombie Dokter"); //done
+        SCENE_LABELS.put("boss_guru",         "BOSS: Zombie Guru"); //done
+        SCENE_LABELS.put("boss_kasir",        "BOSS: Zombie Kasir"); 
         SCENE_LABELS.put("boss_polisi",       "BOSS: Zombie Polisi");
         SCENE_LABELS.put("boss_komandan",     "BOSS FINAL: Komandan!");
         SCENE_LABELS.put("boss_phase2",       "FASE 2 - MENGAMUK!!");
         SCENE_LABELS.put("event_makanan",     "Menemukan Makanan");
         SCENE_LABELS.put("event_orang",       "Orang Asing...");
-        SCENE_LABELS.put("event_jarum",       "Jarum Suntik");
+        SCENE_LABELS.put("event_jarum",       "Jarum Suntik"); 
         SCENE_LABELS.put("event_ransel",      "Menemukan Ransel");
         SCENE_LABELS.put("event_hujan",       "Hujan Lebat");
         SCENE_LABELS.put("event_radio",       "Siaran Radio Redup");
         SCENE_LABELS.put("event_zombie_gang", "Zombie dari Gang!");
-        SCENE_LABELS.put("item_antivirus",    "[+] Obat Antivirus!");
-        SCENE_LABELS.put("item_peta",         "[+] Peta Kota!");
-        SCENE_LABELS.put("item_kaleng",       "[+] Kaleng Makanan!");
-        SCENE_LABELS.put("item_amunisi",      "[+] Amunisi!");
-        SCENE_LABELS.put("item_baterai",      "[+] Baterai Radio!");
-        SCENE_LABELS.put("clue_kartu_akses",  "[!] Kartu Akses ditemukan!");
-        SCENE_LABELS.put("clue_daftar_belanja","[!] Daftar Belanja ditemukan!");
-        SCENE_LABELS.put("clue_kunci_loker",  "[!] Kunci Loker L-09 ditemukan!");
-        SCENE_LABELS.put("clue_kertas_kode",  "[!] Kertas Kode 7887 ditemukan!");
-        SCENE_LABELS.put("game_over",         "=== GAME OVER ===");
-        SCENE_LABELS.put("menang",            "=== KAMU BERHASIL! ===");
+        SCENE_LABELS.put("item_antivirus",    "[+] Obat Antivirus!"); //done
+        SCENE_LABELS.put("item_peta",         "[+] Peta Kota!"); //done
+        SCENE_LABELS.put("item_kaleng",       "[+] Kaleng Makanan!"); //done
+        SCENE_LABELS.put("item_amunisi",      "[+] Amunisi!"); //done
+        SCENE_LABELS.put("item_baterai",      "[+] Baterai Radio!"); //done
+        SCENE_LABELS.put("clue_kartu_akses",  "[!] Kartu Akses ditemukan!");  //done
+        SCENE_LABELS.put("clue_daftar_belanja","[!] Daftar Belanja ditemukan!"); //done
+        SCENE_LABELS.put("clue_kunci_loker",  "[!] Kunci Loker L-09 ditemukan!"); //done
+        SCENE_LABELS.put("clue_kertas_kode",  "[!] Kertas Kode 7887 ditemukan!"); //done
+        SCENE_LABELS.put("game_over",         "=== GAME OVER ==="); //done
+        SCENE_LABELS.put("menang",            "=== KAMU BERHASIL! ==="); 
         SCENE_LABELS.put("terinfeksi",        "[!] TERINFEKSI VIRUS");
 
         Color cLoc  = new Color(140, 200, 140);
@@ -162,7 +161,9 @@ public class Gameconsole {
         Color cBoss = new Color(220,  60,  60);
         Color cEvt  = new Color(160, 200, 255);
         Color cItem = new Color( 80, 220, 100);
-
+        
+        //--Dapuy Rodoxs--
+        
         for (String k : new String[]{"intro","jalanan","rumah_sakit","sekolah","minimarket","kantor_polisi","bunker"})
             SCENE_COLORS.put(k, cLoc);
         // Di loop cAct, HAPUS "jelajah" dari array, GANTI DENGAN:
